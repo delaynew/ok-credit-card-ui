@@ -9,6 +9,9 @@ export default {
   name: 'App',
   components: {
     PaymentCheckout
+  },
+  mounted: function () {
+    document.title = 'Checkout';
   }
 }
 </script>

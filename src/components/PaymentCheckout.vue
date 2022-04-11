@@ -6,6 +6,7 @@
         <div class="spinner" id="spinner" v-if="isLoading"></div>
         <span id="button-handle" v-if="!isLoading">Pay now</span>
       </button>
+      <div id="payment-message" v-if="errorMessage !='' ">{{ errorMessage }}</div>
     </div>
   </div>
 </template>
@@ -24,7 +25,8 @@ export default {
       card: {},
       submitDisabled: true,
       isLoading: false,
-      data: {}
+      data: {},
+      errorMessage: ''
     }
   },
   methods: {
@@ -39,13 +41,13 @@ export default {
         this.submitDisabled = true
       }
     },
-    confirmCheckout() {
+    async confirmCheckout() {
       this.submitDisabled = true
       this.isLoading = true
       const key = 'mkeuEH4muIP4VEIH'
       const iv = '7qQpwJ'
       let data = cryptoJS.encrypt(JSON.stringify(this.data), key, iv)
-      fetch(process.env.VUE_APP_BASE_API+'/aaaa', {
+      const {successUrl, error} = await fetch(process.env.VUE_APP_BASE_API + '/stripe_intent/create', {
         method: "POST",
         headers: {
           'Content-Type': 'application/json'
@@ -54,7 +56,32 @@ export default {
           data: data
         })
       })
+      if (successUrl) {
+        top.location.href = successUrl
+      }
+      if (error) {
+        this.errorMessage = error
+      }
     },
+    showMessage(messageText) {
+     this.errorMessage = messageText
+
+      setTimeout(function () {
+        this.errorMessage = ''
+      }, 4000);
+    }
   }
 }
 </script>
+<style lang="scss">
+#payment-message {
+  color: rgb(105, 115, 134);
+  font-size: 16px;
+  line-height: 20px;
+  padding-top: 12px;
+  text-align: center;
+}
+.hidden {
+  display: none;
+}
+</style>

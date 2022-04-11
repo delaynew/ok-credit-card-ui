@@ -362,7 +362,7 @@ export default {
       .field {
         position: relative;
         width: 100%;
-        margin: 4px 0;
+        margin: 6px 0;
         text-align: left;
 
         label {
