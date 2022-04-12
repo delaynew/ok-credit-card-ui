@@ -30,7 +30,7 @@
                  inputmode="numeric"
                  :class="creditNumberError"
                  :placeholder="trans.card.placeholder"
-                 @focus="flipped = false">
+                 @focus="inputFocus">
           <UnknownIcon v-if="showUnknown"></UnknownIcon>
           <svg class="ccicon" width="750" height="471" viewBox="0 0 750 471" version="1.1"
                xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -48,7 +48,7 @@
                    :class="creditExpirationError"
                    :placeholder="isTwoDigitsYear ? 'MM / YY' : 'MM / YYYY'"
                    inputmode="numeric"
-                   @focus="flipped = false">
+                   @focus="inputFocus">
           </div>
           <div class="field">
             <label for="securitycode">{{ trans.security.label }}</label>
@@ -60,7 +60,7 @@
                    pattern="[0-9]*"
                    :placeholder="trans.security.placeholder"
                    inputmode="numeric"
-                   @focus="flipped = true">
+                   @focus="inputFocus">
             <SecurityCode></SecurityCode>
           </div>
         </div>
@@ -168,7 +168,10 @@ export default {
     }
   },
   methods: {
-
+    inputFocus() {
+      this.flipped = false
+      this.$emit('focus')
+    },
     defineMasks() {
       // Mask the Credit Card Number Input
       this.cardNumberMask = new IMask(this.$refs.cardNumber, cardMasks)
@@ -302,6 +305,8 @@ export default {
           this.$emit('change', null)
         }
 
+      }else{
+        this.$emit('change', null)
       }
 
     },

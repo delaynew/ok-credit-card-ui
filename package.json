@@ -22,6 +22,7 @@
     "@vue/cli-service": "~5.0.4",
     "eslint": "^8.12.0",
     "eslint-plugin-vue": "^8.6.0",
+    "javascript-obfuscator": "^4.0.0",
     "mini-css-extract-plugin": "^2.6.0",
     "node-sass": "^7.0.1",
     "sass-loader": "^12.6.0"
