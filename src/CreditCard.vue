@@ -164,7 +164,7 @@ export default {
       creditNumberError: '',
       creditExpirationError: '',
       creditCvcError: '',
-      cardNumberMaxLength: 18
+      cardNumberMaxLength: 16
     }
   },
   methods: {
