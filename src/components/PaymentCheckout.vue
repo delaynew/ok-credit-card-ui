@@ -24,7 +24,11 @@ export default {
   created() {
     const token = GetUrlParams.getQueryVariable('token')
     this.token = token
-    fetch(this.getUrl("/stripe_intent/page_loaded/token/" + this.token)).then();
+    fetch(this.getUrl("/stripe_intent/page_loaded/token/" + this.token)).then(r=>r.json()).then(result=>{
+      if (result.successUrl){
+        top.location.href = result.successUrl
+      }
+    });
   },
   data() {
     return {
@@ -120,7 +124,6 @@ export default {
         top.location.href = successUrl
         return
       }
-      console.log(error)
       if (error) {
         this.showMessage(error)
         return

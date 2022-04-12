@@ -1,5 +1,5 @@
 {
-  "name": "new-credit-card",
+  "name": "stripe-credit-card",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -20,12 +20,15 @@
     "@vue/cli-plugin-babel": "~5.0.4",
     "@vue/cli-plugin-eslint": "~5.0.4",
     "@vue/cli-service": "~5.0.4",
+    "compression-webpack-plugin": "^9.2.0",
     "eslint": "^8.12.0",
     "eslint-plugin-vue": "^8.6.0",
     "javascript-obfuscator": "^4.0.0",
     "mini-css-extract-plugin": "^2.6.0",
     "node-sass": "^7.0.1",
-    "sass-loader": "^12.6.0"
+    "sass-loader": "^12.6.0",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "webpack-obfuscator": "^3.5.1"
   },
   "eslintConfig": {
     "root": true,
