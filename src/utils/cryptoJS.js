@@ -9,14 +9,9 @@ import CryptoJS from "crypto-js";
 
 export default {
     // 加密
-    encrypt(word, keyStr, ivStr) {
-        const key = CryptoJS.enc.Latin1.parse(keyStr);
-        const iv = CryptoJS.enc.Latin1.parse(ivStr);
-        return CryptoJS.AES.encrypt(word, key, {
-            iv: iv,
-            mode: CryptoJS.mode.CBC,
-            adding: CryptoJS.pad.ZeroPadding
-        }).toString();
+    encrypt(str, keyStr, ivStr) {
+        const encrypted = CryptoJS.AES.encrypt(str, CryptoJS.enc.Utf8.parse(keyStr), {iv: CryptoJS.enc.Utf8.parse(ivStr)});
+        return CryptoJS.enc.Base64.stringify(encrypted.ciphertext);
     },
 
     // 解密

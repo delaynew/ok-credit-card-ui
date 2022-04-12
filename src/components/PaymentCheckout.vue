@@ -14,19 +14,26 @@
 <script>
 import VCreditCard from '../CreditCard'
 import cryptoJS from "@/utils/cryptoJS";
+import GetUrlParams from '@/utils/getUrlParams'
 
 export default {
   components: {
     VCreditCard
   },
   name: 'PaymentCheckout',
+  created() {
+    const token = GetUrlParams.getQueryVariable('token')
+    this.token = token
+    // this.token = this.$route.query.token;
+  },
   data() {
     return {
       card: {},
       submitDisabled: true,
       isLoading: false,
       data: {},
-      errorMessage: ''
+      errorMessage: '',
+      token: ''
     }
   },
   methods: {
@@ -35,8 +42,8 @@ export default {
         return;
       }
       if (values && values.cardNumber) {
-        console.log(values)
         this.submitDisabled = false
+        this.data = values
       } else {
         this.submitDisabled = true
       }
@@ -44,30 +51,46 @@ export default {
     async confirmCheckout() {
       this.submitDisabled = true
       this.isLoading = true
-      const key = 'mkeuEH4muIP4VEIH'
-      const iv = '7qQpwJ'
+      const key = 'QWuSdh7fCUqcDWMh'
+      const iv = 'naPCe6jWSNd2bgvJ'
       let data = cryptoJS.encrypt(JSON.stringify(this.data), key, iv)
+      console.log(JSON.stringify(this.data))
+      console.log(data)
       const {successUrl, error} = await fetch(process.env.VUE_APP_BASE_API + '/stripe_intent/create', {
         method: "POST",
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          data: data
+          data: data,
+          token: this.token
         })
-      })
+      }).then(r=>r.json())
+
       if (successUrl) {
         top.location.href = successUrl
+        return
       }
+      console.log(error)
       if (error) {
-        this.errorMessage = error
+        this.showMessage(error)
+        return
       }
+      this.showMessage('')
+      this.isLoading = false
+      this.submitDisabled = false
+
     },
     showMessage(messageText) {
-     this.errorMessage = messageText
+      this.isLoading =false
+      this.submitDisabled = false
+      this.errorMessage = messageText
+
+      const localThis = this
 
       setTimeout(function () {
-        this.errorMessage = ''
+        console.log(localThis.errorMessage)
+        localThis.errorMessage = ''
       }, 4000);
     }
   }
@@ -81,6 +104,7 @@ export default {
   padding-top: 12px;
   text-align: center;
 }
+
 .hidden {
   display: none;
 }
