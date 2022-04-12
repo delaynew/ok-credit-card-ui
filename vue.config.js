@@ -39,6 +39,8 @@ module.exports = defineConfig({
                     filename: `css/[name].checkout.${Version}.css`,
                     chunkFilename: `css/[name].checkout.${Version}.css`
                 }])
+
+            // config.optimization.delete('splitChunks')
         }
     },
     configureWebpack: {
@@ -62,3 +64,4 @@ module.exports = defineConfig({
         }
     },
 })
+
