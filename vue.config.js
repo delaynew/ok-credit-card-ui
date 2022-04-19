@@ -54,10 +54,10 @@ module.exports = defineConfig({
                 '@': resolve('src')
             }
         },
-        externals: {
+        /*externals: {
             'AMap': 'AMap',
             'AMapUI': 'AMapUI'
-        },
+        },*/
 
         plugins: [
 
